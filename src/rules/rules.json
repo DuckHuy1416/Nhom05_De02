@@ -1,4 +1,541 @@
 {
-  "_ghi_chu": "Mỗi luật phải có trường 'nguon' (tài liệu khuyến nông chính thống). Không tự đặt tên thuốc, liều lượng. Cần >= 20 luật.",
-  "rules": []
+  "phien_ban": 1,
+  "cap_nhat": "2026-11-11",
+  "mo_ta": "Kho tri thức Chức năng 2 – bệnh lá lúa. Mỗi luật đều ghi nguồn tài liệu khuyến nông; hệ thống không tự đặt tên thuốc hay liều lượng.",
+  "quy_uoc": {
+    "neu": "Danh sách sự kiện phải cùng đúng (AND). Mỗi sự kiện có thể là triệu chứng, thời tiết, giai đoạn, tập quán canh tác, sự kiện trung gian hoặc kết luận.",
+    "thi": "Danh sách sự kiện được thêm vào bộ nhớ khi luật kích hoạt.",
+    "do_tin_cay": "Trọng số 0–1 thể hiện mức độ chắc chắn của luật theo tài liệu (ước lượng, cần hiệu chỉnh khi có dữ liệu đồng ruộng)."
+  },
+  "nguon": [
+    {
+      "ma": "S1",
+      "ten": "IRRI Rice Knowledge Bank – Blast (leaf and collar)",
+      "to_chuc": "International Rice Research Institute (IRRI)",
+      "url": "http://www.knowledgebank.irri.org/training/fact-sheets/pest-management/diseases/item/blast-leaf-collar",
+      "ghi_chu": "Triệu chứng vết hình thoi/ổ mắt, tâm xám, viền nâu; thời tiết ẩm, sương mù, nhiệt độ 20–28 °C, chênh lệch ngày đêm."
+    },
+    {
+      "ma": "S2",
+      "ten": "IRRI Rice Knowledge Bank – Bacterial blight",
+      "to_chuc": "International Rice Research Institute (IRRI)",
+      "url": "http://www.knowledgebank.irri.org/training/fact-sheets/pest-management/diseases/item/bacterial-blight",
+      "ghi_chu": "Vết bệnh từ chóp/mép lá chạy dọc gân, mép gợn sóng, giọt vi khuẩn buổi sáng; mưa nhiều, gió mạnh, ruộng ngập."
+    },
+    {
+      "ma": "S3",
+      "ten": "IRRI Rice Knowledge Bank – Brown spot",
+      "to_chuc": "International Rice Research Institute (IRRI)",
+      "url": "http://www.knowledgebank.irri.org/training/fact-sheets/pest-management/diseases/item/brown-spot",
+      "ghi_chu": "Đốm tròn/bầu dục tâm xám viền nâu đỏ; đất nghèo dinh dưỡng, thiếu nước, thiếu kali/silicon; nắng mưa xen kẽ."
+    },
+    {
+      "ma": "S4",
+      "ten": "IRRI Rice Doctor – công cụ chẩn đoán bệnh lúa",
+      "to_chuc": "International Rice Research Institute (IRRI)",
+      "url": "http://knowledgebank.irri.org/decision-tools/rice-doctor",
+      "ghi_chu": "Quy trình hỏi đáp theo triệu chứng và điều kiện đồng ruộng để phân biệt đạo ôn, bạc lá, đốm nâu."
+    },
+    {
+      "ma": "S5",
+      "ten": "Viện Nghiên cứu Lúa Đồng bằng sông Cửu Long – tài liệu bệnh hại lúa",
+      "to_chuc": "Viện Nghiên cứu Lúa Đồng bằng sông Cửu Long (Đại học Cần Thơ)",
+      "url": "https://lrc.ctu.edu.vn",
+      "ghi_chu": "Tài liệu khuyến cáo giai đoạn nhiễm bệnh, giống nhiễm và biện pháp canh tác phòng trừ bệnh đạo ôn, bạc lá, đốm nâu tại ĐBSCL. Tra cứu mục bệnh hại lúa trên trang của Viện."
+    },
+    {
+      "ma": "S6",
+      "ten": "Cục Bảo vệ thực vật – hướng dẫn phòng trừ bệnh hại lúa",
+      "to_chuc": "Cục Bảo vệ thực vật, Bộ Nông nghiệp và Phát triển nông thôn",
+      "url": "https://ppd.gov.vn",
+      "ghi_chu": "Hướng dẫn điều tra, dự báo và phòng trừ bệnh hại lúa; nguyên tắc 4 đúng khi sử dụng thuốc BVTV. Tra cứu mục hướng dẫn phòng trừ trên cổng thông tin của Cục."
+    }
+  ],
+  "su_kien": {
+    "tc_vet_thoi": {
+      "nhan": "Vết bệnh hình thoi / ổ mắt, tâm xám tro, viền nâu",
+      "loai": "trieu_chung",
+      "cau_hoi": "Trên lá có vết bệnh hình thoi (ổ mắt), giữa màu xám tro, viền nâu không?"
+    },
+    "tc_qua_quang_vang": {
+      "nhan": "Có quầng vàng quanh vết bệnh",
+      "loai": "trieu_chung",
+      "cau_hoi": "Quanh vết bệnh có quầng màu vàng không?"
+    },
+    "tc_chop_la_kho": {
+      "nhan": "Chóp lá khô, vết bệnh chạy dọc gân lá từ chóp/mép",
+      "loai": "trieu_chung",
+      "cau_hoi": "Chóp lá hoặc mép lá bị khô, vết bệnh chạy dọc theo gân lá không?"
+    },
+    "tc_vien_la_nau": {
+      "nhan": "Mép vết bệnh gợn sóng, màu vàng nhạt đến trắng xám",
+      "loai": "trieu_chung",
+      "cau_hoi": "Vết bệnh lan dài, mép gợn sóng, chuyển vàng nhạt rồi trắng xám không?"
+    },
+    "tc_giot_vi_khuan": {
+      "nhan": "Giọt vi khuẩn đục như sương trên vết bệnh (buổi sáng)",
+      "loai": "trieu_chung",
+      "cau_hoi": "Buổi sáng sớm thấy giọt dịch đục như sương trên vết bệnh không?"
+    },
+    "tc_dom_tron": {
+      "nhan": "Đốm tròn / bầu dục, tâm xám, viền nâu đỏ",
+      "loai": "trieu_chung",
+      "cau_hoi": "Trên lá có đốm tròn hoặc bầu dục, tâm xám, viền nâu đỏ không?"
+    },
+    "tc_dom_nhieu": {
+      "nhan": "Nhiều đốm nhỏ tập trung, lá vàng và khô",
+      "loai": "trieu_chung",
+      "cau_hoi": "Nhiều đốm nhỏ tập trung một chỗ làm lá vàng và khô không?"
+    },
+    "tc_la_vang": {
+      "nhan": "Lá vàng từ chóp hoặc vàng cả lá",
+      "loai": "trieu_chung",
+      "cau_hoi": "Lá vàng (từ chóp hoặc cả lá) không?"
+    },
+    "tc_chat_la": {
+      "nhan": "Cây còi cọc, lá nhỏ, có cây chết dần",
+      "loai": "trieu_chung",
+      "cau_hoi": "Cây còi cọc, lá nhỏ, có cây chết dần không?"
+    },
+    "tc_khong_co": {
+      "nhan": "Lá xanh, không thấy vết bệnh",
+      "loai": "trieu_chung",
+      "cau_hoi": "Lá vẫn xanh, không thấy vết bệnh nào không?"
+    },
+    "tt_am_do_cao": {
+      "nhan": "Ẩm độ cao, lá đọng nước",
+      "loai": "thoi_tiet",
+      "cau_hoi": "Ruộng ẩm ướt, lá đọng nước hoặc ẩm độ không khí cao không?"
+    },
+    "tt_suong_mu": {
+      "nhan": "Sương mù, trời âm u, ít nắng",
+      "loai": "thoi_tiet",
+      "cau_hoi": "Có sương mù, trời âm u nhiều ngày không?"
+    },
+    "tt_nhiet_do_thap": {
+      "nhan": "Nhiệt độ mát khoảng 20–28 °C, ngày đêm chênh lệch",
+      "loai": "thoi_tiet",
+      "cau_hoi": "Nhiệt độ mát khoảng 20–28 °C, ngày đêm chênh lệch rõ không?"
+    },
+    "tt_mua_nhieu": {
+      "nhan": "Mưa nhiều, mưa phùn kéo dài",
+      "loai": "thoi_tiet",
+      "cau_hoi": "Vừa có đợt mưa nhiều hoặc mưa phùn kéo dài không?"
+    },
+    "tt_gio_manh": {
+      "nhan": "Gió mạnh, mưa dông",
+      "loai": "thoi_tiet",
+      "cau_hoi": "Gần đây có gió mạnh hoặc mưa dông không?"
+    },
+    "tt_nang_mua_xen_ke": {
+      "nhan": "Nắng mưa xen kẽ, nóng ẩm",
+      "loai": "thoi_tiet",
+      "cau_hoi": "Thời tiết nắng mưa xen kẽ, nóng ẩm không?"
+    },
+    "tt_kho_han": {
+      "nhan": "Hạn, ruộng thiếu nước",
+      "loai": "thoi_tiet",
+      "cau_hoi": "Ruộng đang thiếu nước hoặc bị hạn không?"
+    },
+    "gd_ma": {
+      "nhan": "Giai đoạn mạ – mới sạ/cấy",
+      "loai": "giai_doan",
+      "cau_hoi": "Lúa đang ở giai đoạn mạ hoặc mới sạ/cấy không?"
+    },
+    "gd_de_nhanh": {
+      "nhan": "Giai đoạn đẻ nhánh",
+      "loai": "giai_doan",
+      "cau_hoi": "Lúa đang ở giai đoạn đẻ nhánh không?"
+    },
+    "gd_lam_dong": {
+      "nhan": "Giai đoạn làm đòng – trổ",
+      "loai": "giai_doan",
+      "cau_hoi": "Lúa đang làm đòng hoặc trổ bông không?"
+    },
+    "gd_chin": {
+      "nhan": "Giai đoạn chín",
+      "loai": "giai_doan",
+      "cau_hoi": "Lúa đang ở giai đoạn chín không?"
+    },
+    "tq_dam_cao": {
+      "nhan": "Bón nhiều đạm",
+      "loai": "tap_quan",
+      "cau_hoi": "Ruộng có bón nhiều đạm (vượt khuyến cáo) không?"
+    },
+    "tq_mat_do_day": {
+      "nhan": "Gieo sạ dày",
+      "loai": "tap_quan",
+      "cau_hoi": "Ruộng gieo sạ dày không?"
+    },
+    "tq_giong_nhiem": {
+      "nhan": "Giống lúa nhiễm bệnh",
+      "loai": "tap_quan",
+      "cau_hoi": "Giống lúa đang trồng thuộc nhóm nhiễm bệnh (ví dụ nếp, một số giống lúa thơm) không?"
+    },
+    "tq_dat_ngheo": {
+      "nhan": "Đất nghèo dinh dưỡng, bón phân không cân đối",
+      "loai": "tap_quan",
+      "cau_hoi": "Đất ruộng nghèo dinh dưỡng hoặc bón phân không cân đối không?"
+    },
+    "tq_thieu_kali": {
+      "nhan": "Thiếu kali / silicon",
+      "loai": "tap_quan",
+      "cau_hoi": "Ruộng có biểu hiện thiếu kali hoặc chưa bón kali/silicon không?"
+    },
+    "tq_ruong_ngap": {
+      "nhan": "Ruộng trũng, thường xuyên ngập nước",
+      "loai": "tap_quan",
+      "cau_hoi": "Ruộng trũng, thường xuyên ngập nước không?"
+    },
+    "tq_nguon_benh": {
+      "nhan": "Còn rơm rạ / tàn dư bệnh từ vụ trước",
+      "loai": "tap_quan",
+      "cau_hoi": "Ruộng còn rơm rạ hoặc tàn dư cây bệnh từ vụ trước không?"
+    },
+    "nguy_co_dao_on": {
+      "nhan": "Có yếu tố thuận lợi cho bệnh đạo ôn",
+      "loai": "trung_gian"
+    },
+    "nguy_co_dao_on_cao": {
+      "nhan": "Nguy cơ bệnh đạo ôn ở mức cao",
+      "loai": "trung_gian"
+    },
+    "canh_bao_thoi_tiet_dao_on": {
+      "nhan": "Thời tiết thuận lợi cho đạo ôn (cảnh báo sớm)",
+      "loai": "trung_gian"
+    },
+    "nguy_co_bac_la": {
+      "nhan": "Có yếu tố thuận lợi cho bệnh bạc lá",
+      "loai": "trung_gian"
+    },
+    "nguy_co_bac_la_cao": {
+      "nhan": "Nguy cơ bệnh bạc lá ở mức cao",
+      "loai": "trung_gian"
+    },
+    "nguy_co_dom_nau": {
+      "nhan": "Có yếu tố thuận lợi cho bệnh đốm nâu",
+      "loai": "trung_gian"
+    },
+    "nguy_co_dom_nau_cao": {
+      "nhan": "Nguy cơ bệnh đốm nâu ở mức cao",
+      "loai": "trung_gian"
+    },
+    "can_kiem_tra_dinh_duong": {
+      "nhan": "Cần kiểm tra dinh dưỡng đất và bổ sung cân đối",
+      "loai": "trung_gian"
+    },
+    "canh_bao_dao_on_co_bong": {
+      "nhan": "Cảnh báo đạo ôn giai đoạn làm đòng (dễ gây bệnh cổ bông, thối hạt)",
+      "loai": "trung_gian"
+    },
+    "benh_dao_on": {
+      "nhan": "Bệnh đạo ôn",
+      "loai": "ket_luan"
+    },
+    "benh_bac_la": {
+      "nhan": "Bệnh bạc lá",
+      "loai": "ket_luan"
+    },
+    "benh_dom_nau": {
+      "nhan": "Bệnh đốm nâu",
+      "loai": "ket_luan"
+    },
+    "la_khoe": {
+      "nhan": "Lá khỏe, chưa thấy dấu hiệu bệnh",
+      "loai": "ket_luan"
+    }
+  },
+  "luat": [
+    {
+      "ma": "L01",
+      "ten": "Vết hình thoi có quầng vàng → đạo ôn",
+      "neu": ["tc_vet_thoi", "tc_qua_quang_vang"],
+      "thi": ["benh_dao_on"],
+      "do_tin_cay": 0.85,
+      "nguon": ["S1", "S4"]
+    },
+    {
+      "ma": "L02",
+      "ten": "Vết hình thoi trong điều kiện ẩm → nguy cơ đạo ôn",
+      "neu": ["tc_vet_thoi", "tt_am_do_cao"],
+      "thi": ["nguy_co_dao_on"],
+      "do_tin_cay": 0.7,
+      "nguon": ["S1"]
+    },
+    {
+      "ma": "L03",
+      "ten": "Sương mù, ẩm, nhiệt độ mát → cảnh báo thời tiết đạo ôn",
+      "neu": ["tt_am_do_cao", "tt_suong_mu", "tt_nhiet_do_thap"],
+      "thi": ["canh_bao_thoi_tiet_dao_on"],
+      "do_tin_cay": 0.8,
+      "nguon": ["S1", "S6"]
+    },
+    {
+      "ma": "L04",
+      "ten": "Nguy cơ đạo ôn + bón nhiều đạm → nguy cơ cao",
+      "neu": ["nguy_co_dao_on", "tq_dam_cao"],
+      "thi": ["nguy_co_dao_on_cao"],
+      "do_tin_cay": 0.85,
+      "nguon": ["S1", "S5"]
+    },
+    {
+      "ma": "L05",
+      "ten": "Nguy cơ đạo ôn cao + giống nhiễm → đạo ôn",
+      "neu": ["nguy_co_dao_on_cao", "tq_giong_nhiem"],
+      "thi": ["benh_dao_on"],
+      "do_tin_cay": 0.8,
+      "nguon": ["S1", "S5", "S6"]
+    },
+    {
+      "ma": "L06",
+      "ten": "Giai đoạn mạ + ẩm độ cao → nguy cơ đạo ôn cao",
+      "neu": ["gd_ma", "tt_am_do_cao"],
+      "thi": ["nguy_co_dao_on_cao"],
+      "do_tin_cay": 0.75,
+      "nguon": ["S1", "S5"]
+    },
+    {
+      "ma": "L07",
+      "ten": "Cảnh báo thời tiết đạo ôn + bón nhiều đạm → nguy cơ cao",
+      "neu": ["canh_bao_thoi_tiet_dao_on", "tq_dam_cao"],
+      "thi": ["nguy_co_dao_on_cao"],
+      "do_tin_cay": 0.8,
+      "nguon": ["S1", "S6"]
+    },
+    {
+      "ma": "L08",
+      "ten": "Chóp lá khô + mép gợn sóng → bạc lá",
+      "neu": ["tc_chop_la_kho", "tc_vien_la_nau"],
+      "thi": ["benh_bac_la"],
+      "do_tin_cay": 0.8,
+      "nguon": ["S2", "S4"]
+    },
+    {
+      "ma": "L09",
+      "ten": "Giọt vi khuẩn trên vết bệnh → bạc lá",
+      "neu": ["tc_giot_vi_khuan"],
+      "thi": ["benh_bac_la"],
+      "do_tin_cay": 0.9,
+      "nguon": ["S2"]
+    },
+    {
+      "ma": "L10",
+      "ten": "Mưa nhiều + gió mạnh → nguy cơ bạc lá",
+      "neu": ["tt_mua_nhieu", "tt_gio_manh"],
+      "thi": ["nguy_co_bac_la"],
+      "do_tin_cay": 0.7,
+      "nguon": ["S2", "S6"]
+    },
+    {
+      "ma": "L11",
+      "ten": "Nguy cơ bạc lá + bón nhiều đạm → nguy cơ cao",
+      "neu": ["nguy_co_bac_la", "tq_dam_cao"],
+      "thi": ["nguy_co_bac_la_cao"],
+      "do_tin_cay": 0.85,
+      "nguon": ["S2"]
+    },
+    {
+      "ma": "L12",
+      "ten": "Nguy cơ bạc lá cao + ruộng ngập → bạc lá",
+      "neu": ["nguy_co_bac_la_cao", "tq_ruong_ngap"],
+      "thi": ["benh_bac_la"],
+      "do_tin_cay": 0.75,
+      "nguon": ["S2", "S5"]
+    },
+    {
+      "ma": "L13",
+      "ten": "Đốm tròn + nhiều đốm tập trung → đốm nâu",
+      "neu": ["tc_dom_tron", "tc_dom_nhieu"],
+      "thi": ["benh_dom_nau"],
+      "do_tin_cay": 0.85,
+      "nguon": ["S3", "S4"]
+    },
+    {
+      "ma": "L14",
+      "ten": "Lá vàng, cây còi + đất nghèo → đốm nâu",
+      "neu": ["tc_la_vang", "tc_chat_la", "tq_dat_ngheo"],
+      "thi": ["benh_dom_nau"],
+      "do_tin_cay": 0.65,
+      "nguon": ["S3"]
+    },
+    {
+      "ma": "L15",
+      "ten": "Nắng mưa xen kẽ, nóng ẩm → nguy cơ đốm nâu",
+      "neu": ["tt_nang_mua_xen_ke", "tt_am_do_cao"],
+      "thi": ["nguy_co_dom_nau"],
+      "do_tin_cay": 0.6,
+      "nguon": ["S3"]
+    },
+    {
+      "ma": "L16",
+      "ten": "Nguy cơ đốm nâu + đất nghèo dinh dưỡng → nguy cơ cao",
+      "neu": ["nguy_co_dom_nau", "tq_dat_ngheo"],
+      "thi": ["nguy_co_dom_nau_cao"],
+      "do_tin_cay": 0.8,
+      "nguon": ["S3"]
+    },
+    {
+      "ma": "L17",
+      "ten": "Nguy cơ đốm nâu cao + thiếu kali/silicon → đốm nâu",
+      "neu": ["nguy_co_dom_nau_cao", "tq_thieu_kali"],
+      "thi": ["benh_dom_nau"],
+      "do_tin_cay": 0.75,
+      "nguon": ["S3", "S5"]
+    },
+    {
+      "ma": "L18",
+      "ten": "Nguy cơ đốm nâu ở giai đoạn chín → nguy cơ cao",
+      "neu": ["nguy_co_dom_nau", "gd_chin"],
+      "thi": ["nguy_co_dom_nau_cao"],
+      "do_tin_cay": 0.7,
+      "nguon": ["S3"]
+    },
+    {
+      "ma": "L19",
+      "ten": "Còn tàn dư bệnh + giống nhiễm → nguy cơ đạo ôn",
+      "neu": ["tq_nguon_benh", "tq_giong_nhiem"],
+      "thi": ["nguy_co_dao_on"],
+      "do_tin_cay": 0.65,
+      "nguon": ["S1", "S5"]
+    },
+    {
+      "ma": "L20",
+      "ten": "Gieo dày + bón nhiều đạm → nguy cơ đạo ôn",
+      "neu": ["tq_mat_do_day", "tq_dam_cao"],
+      "thi": ["nguy_co_dao_on"],
+      "do_tin_cay": 0.6,
+      "nguon": ["S1"]
+    },
+    {
+      "ma": "L21",
+      "ten": "Gieo dày + ẩm độ cao → nguy cơ bạc lá",
+      "neu": ["tq_mat_do_day", "tt_am_do_cao"],
+      "thi": ["nguy_co_bac_la"],
+      "do_tin_cay": 0.55,
+      "nguon": ["S2"]
+    },
+    {
+      "ma": "L22",
+      "ten": "Đất nghèo + thiếu kali → nguy cơ đốm nâu",
+      "neu": ["tq_dat_ngheo", "tq_thieu_kali"],
+      "thi": ["nguy_co_dom_nau"],
+      "do_tin_cay": 0.65,
+      "nguon": ["S3", "S5"]
+    },
+    {
+      "ma": "L23",
+      "ten": "Không thấy vết bệnh → lá khỏe",
+      "neu": ["tc_khong_co"],
+      "thi": ["la_khoe"],
+      "do_tin_cay": 0.9,
+      "nguon": ["S4", "S6"]
+    },
+    {
+      "ma": "L24",
+      "ten": "Lá vàng, đất nghèo + thiếu kali → cần kiểm tra dinh dưỡng",
+      "neu": ["tc_la_vang", "tq_dat_ngheo", "tq_thieu_kali"],
+      "thi": ["can_kiem_tra_dinh_duong"],
+      "do_tin_cay": 0.7,
+      "nguon": ["S3", "S5"]
+    },
+    {
+      "ma": "L25",
+      "ten": "Hạn + đất nghèo dinh dưỡng → nguy cơ đốm nâu",
+      "neu": ["tt_kho_han", "tq_dat_ngheo"],
+      "thi": ["nguy_co_dom_nau"],
+      "do_tin_cay": 0.6,
+      "nguon": ["S3"]
+    },
+    {
+      "ma": "L26",
+      "ten": "Vết hình thoi + giống nhiễm → nguy cơ đạo ôn",
+      "neu": ["tc_vet_thoi", "tq_giong_nhiem"],
+      "thi": ["nguy_co_dao_on"],
+      "do_tin_cay": 0.6,
+      "nguon": ["S1"]
+    },
+    {
+      "ma": "L27",
+      "ten": "Đạo ôn ở giai đoạn làm đòng → cảnh báo bệnh cổ bông",
+      "neu": ["benh_dao_on", "gd_lam_dong"],
+      "thi": ["canh_bao_dao_on_co_bong"],
+      "do_tin_cay": 0.75,
+      "nguon": ["S1", "S5", "S6"]
+    },
+    {
+      "ma": "L28",
+      "ten": "Mưa nhiều + ruộng trũng → nguy cơ bạc lá",
+      "neu": ["tt_mua_nhieu", "tq_ruong_ngap"],
+      "thi": ["nguy_co_bac_la"],
+      "do_tin_cay": 0.65,
+      "nguon": ["S2"]
+    }
+  ],
+  "khuyen_nghi": {
+    "dao_on": [
+      {
+        "noi_dung": "Không tăng thêm đạm; điều chỉnh bón phân cân đối theo khuyến cáo địa phương.",
+        "nguon": ["S1", "S6"]
+      },
+      {
+        "noi_dung": "Giữ mực nước hợp lý, tránh để lá đọng nước kéo dài; vệ sinh đồng ruộng và xử lý rơm rạ, tàn dư bệnh.",
+        "nguon": ["S1", "S5"]
+      },
+      {
+        "noi_dung": "Ghi nhận diện tích bị bệnh, theo dõi thêm 2–3 ngày/lần; ưu tiên giống kháng bệnh cho vụ sau.",
+        "nguon": ["S1", "S5"]
+      },
+      {
+        "noi_dung": "Khi bệnh chớm lan hoặc ở giai đoạn làm đòng, liên hệ cán bộ bảo vệ thực vật để được hướng dẫn dùng thuốc theo đúng 4 đúng; không tự đặt tên thuốc, liều lượng.",
+        "nguon": ["S6"]
+      }
+    ],
+    "bac_la": [
+      {
+        "noi_dung": "Không bón thêm đạm; tháo nước hoặc giữ ruộng thoát nước, tránh để ruộng ngập sâu.",
+        "nguon": ["S2", "S6"]
+      },
+      {
+        "noi_dung": "Hạn chế làm tổn thương lá (cỏ, phun thuốc tràn lan khi lá còn ướt) vì vi khuẩn xâm nhập qua vết thương.",
+        "nguon": ["S2"]
+      },
+      {
+        "noi_dung": "Vệ sinh đồng ruộng, xử lý rơm rạ bệnh; luân canh và dùng giống kháng bệnh ở vụ sau.",
+        "nguon": ["S2", "S5"]
+      },
+      {
+        "noi_dung": "Khi bệnh lan nhanh, liên hệ cán bộ bảo vệ thực vật để được hướng dẫn biện pháp phù hợp; không tự đặt tên thuốc, liều lượng.",
+        "nguon": ["S6"]
+      }
+    ],
+    "dom_nau": [
+      {
+        "noi_dung": "Bón phân cân đối NPK, chú ý kali và silicon; cải tạo đất chua, đất nghèo dinh dưỡng.",
+        "nguon": ["S3", "S5"]
+      },
+      {
+        "noi_dung": "Dùng hạt giống sạch bệnh, xử lý hạt giống theo hướng dẫn khuyến nông; vệ sinh tàn dư cây bệnh.",
+        "nguon": ["S3"]
+      },
+      {
+        "noi_dung": "Giữ đủ ẩm cho ruộng, tránh để đất quá khô hoặc thiếu nước kéo dài.",
+        "nguon": ["S3"]
+      },
+      {
+        "noi_dung": "Nếu đốm bệnh tăng nhanh, liên hệ cán bộ bảo vệ thực vật để được hướng dẫn; không tự đặt tên thuốc, liều lượng.",
+        "nguon": ["S6"]
+      }
+    ],
+    "la_khoe": [
+      {
+        "noi_dung": "Tiếp tục theo dõi ruộng 2–3 ngày/lần, nhất là khi thời tiết ẩm, mưa nhiều hoặc sương mù.",
+        "nguon": ["S4", "S6"]
+      },
+      {
+        "noi_dung": "Duy trì bón phân cân đối, gieo sạ mật độ hợp lý và vệ sinh đồng ruộng để phòng bệnh.",
+        "nguon": ["S1", "S5"]
+      }
+    ]
+  },
+  "mien_tru": "Kết quả chỉ mang tính tham khảo, không thay thế chẩn đoán của cán bộ khuyến nông/bảo vệ thực vật. Trước khi dùng thuốc phải theo hướng dẫn trên nhãn và khuyến cáo của cơ quan chuyên môn địa phương."
 }

@@ -1,0 +1,17 @@
+# Môi trường ảo và bộ nhớ đệm
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Dữ liệu ảnh, trọng số mô hình (không đưa lên Git)
+data/raw/
+data/anh_thuc_te/*.jpg
+data/anh_thuc_te/*.jpeg
+data/anh_thuc_te/*.png
+models/
+*.h5
+*.keras
+
+# Cấu hình cục bộ / khóa API
+.env

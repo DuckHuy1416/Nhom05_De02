@@ -24,7 +24,7 @@ Luồng sử dụng của Bác sĩ Lúa:
 | # | Chức năng | Kỹ thuật chính | Thư mục |
 |---|-----------|----------------|---------|
 | 1 | Lập lộ trình drone phun thuốc | Mô hình hóa không gian trạng thái; **tự cài đặt** A* cho từng chặng; leo đồi hoặc beam search chọn thứ tự ghé ô bệnh (TSP có ràng buộc nạp thuốc/pin); so sánh với chiến lược tham lam | `search/` |
-| 2 | Hệ chuyên gia tư vấn và mạng Bayes | ≥ 20 luật lấy từ tài liệu khuyến nông chính thống; **tự cài đặt** suy diễn tiến và suy diễn lùi; mạng Bayes ≥ 5 nút bằng pgmpy | `expert/` |
+| 2 | Hệ chuyên gia tư vấn và mạng Bayes | ≥ 20 luật lấy từ tài liệu khuyến nông chính thống; **tự cài đặt** suy diễn tiến và suy diễn lùi; mạng Bayes ≥ 5 nút bằng pgmpy | `src/rules/` |
 | 3 | Nhận diện bệnh lá lúa | CNN tự thiết kế và transfer learning (MobileNetV2 hoặc EfficientNetB0) bằng TensorFlow/Keras; tăng cường dữ liệu; đánh giá accuracy, precision, recall, F1, ma trận nhầm lẫn | `cnn/` |
 | 4 | Ứng dụng tích hợp | Giao diện tiếng Việt, bản đồ lưới, hoạt cảnh lộ trình (Pygame hoặc matplotlib) | `app/` |
 
@@ -48,12 +48,13 @@ bac-si-lua/
 │   ├── order_opt.py
 │   ├── run.py
 │   └── experiment.py
-├── expert/               # CN2 – luật, suy diễn tiến/lùi, mạng Bayes
-│   ├── rules.json
-│   ├── forward.py
-│   ├── backward.py
-│   ├── bayes.py
-│   └── diagnose.py
+├── src/rules/            # CN2 – luật, suy diễn tiến/lùi, mạng Bayes
+│   ├── rules.json        #   kho 28 luật + mã nguồn tài liệu khuyến nông
+│   ├── chung.py          #   đọc/kiểm tra kho, kết quả chẩn đoán dùng chung
+│   ├── forward.py        #   suy diễn tiến tự cài đặt
+│   ├── backward.py       #   suy diễn lùi tự cài đặt
+│   ├── bayes.py          #   mạng Bayes 8 nút bằng pgmpy + bảng CPD
+│   └── ket_hop.py        #   kết hợp CNN + hệ luật + mạng Bayes
 ├── cnn/                  # CN3 – dữ liệu, huấn luyện, đánh giá, dự đoán
 │   ├── prepare_data.py
 │   ├── custom_cnn.py
@@ -131,9 +132,10 @@ python -m search.run --map data/maps/map_20x20_mau.json --k 5 --p 60 --algo hill
 python -m search.experiment        # so sánh với tham lam trên nhiều bản đồ ngẫu nhiên
 
 # CN2 – hệ chuyên gia và mạng Bayes (dòng lệnh)
-python -m expert.forward
-python -m expert.backward --goal dao_on
-python -m expert.bayes
+python -m src.rules.forward
+python -m src.rules.backward --muc-tieu dao_on
+python -m src.rules.bayes
+python -m src.rules.ket_hop
 
 # CN3 – chuẩn bị dữ liệu, huấn luyện, dự đoán
 python -m cnn.prepare_data
@@ -176,7 +178,9 @@ Mã ô: `0` lúa khỏe · `1`, `2`, `3` lúa bệnh theo mức · `-1` vật c�
 | Hàm | Module | Đầu ra |
 |-----|--------|--------|
 | `predict_top3(duong_dan_anh)` | `cnn/predict.py` | `[("dao_on", 0.55), ("dom_nau", 0.40), ("bac_la", 0.03)]` |
-| `diagnose(top3, hoi_nguoi_dung)` | `expert/diagnose.py` | kết luận, độ tin cậy, các luật đã dùng (giải thích), nguồn tài liệu |
+| `ket_hop(cnn_top3, bang_chung)` | `src/rules/ket_hop.py` | kết luận cuối, độ tin cậy, điểm từng nguồn (CNN/luật/Bayes), các luật đã dùng, khuyến nghị, nguồn tài liệu |
+| `suy_dien_tien(bang_chung)` | `src/rules/forward.py` | kết luận + chuỗi luật kích hoạt (giải thích) + nguồn |
+| `suy_dien_lui(muc_tieu, hoi_nguoi_dung)` | `src/rules/backward.py` | chứng minh/không chứng minh được giả thuyết, câu hỏi đã hỏi, nguồn |
 | `plan_route(ban_do, k, p, thuat_toan)` | `search/run.py` | các ô đi qua, sự kiện phun/nạp, tổng quãng đường, số lần về trạm, thời gian chạy |
 
 ## 8. Thành viên và phân công
@@ -203,7 +207,7 @@ Phân công chi tiết: `docs/ho_so_nhom/` (Mẫu 01 – Kế hoạch và phân 
 
 - [ ] Mô hình hóa bài toán, README bản đầu, Mẫu 01, Mẫu 02 Tuần 1
 - [ ] CN1 chạy được: A*, tham lam, leo đồi/beam, bảng so sánh
-- [ ] CN2 chạy được: ≥ 20 luật, suy diễn tiến, suy diễn lùi, mạng Bayes
+- [x] CN2 chạy được: ≥ 20 luật, suy diễn tiến, suy diễn lùi, mạng Bayes
 - [ ] CN3: kết quả đánh giá 2 mô hình, thử ≥ 20 ảnh thực tế
 - [ ] CN4: ứng dụng chạy đầu – cuối, có hoạt cảnh lộ trình
 - [ ] Nộp báo cáo .docx, slide .pptx, code .zip

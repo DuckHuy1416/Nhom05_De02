@@ -38,7 +38,9 @@ def validate_rules(document: object) -> list[str]:
         content = json.dumps(rule, ensure_ascii=False).lower().replace("đ", "d")
         content = "".join(c for c in unicodedata.normalize("NFD", content)
                           if unicodedata.category(c) != "Mn")
-        if re.search(r"thuoc|hoat[ _-]*chat|lieu|pesticide|fungicide|herbicide|insecticide", content):
+        # "tài liệu" mất dấu thành "tai lieu", dễ bị quét nhầm từ "liều".
+        content = content.replace("tai lieu", "tailieu")
+        if re.search(r"\b(?:thuoc|hoat[ _-]*chat|lieu|pesticide|fungicide|herbicide|insecticide)\b", content):
             errors.append(f"{prefix}: có dấu hiệu đề cập thuốc/hoạt chất/liều.")
         if re.search(r"\d+(?:[.,]\d+)?\s*(?:mg|ml|kg|g|l|cc|lit|%|wp|ec|sc|wg)(?!\w)", content):
             errors.append(f"{prefix}: có dấu hiệu đơn vị liều hoặc dạng chế phẩm.")

@@ -1,11 +1,17 @@
-"""C3 - Suy diễn tiến: từ triệu chứng ra kết luận.
-
-Phụ trách: TV2 | Thời hạn: T7 14/11 (theo Mẫu 01)
-Trạng thái: chưa cài đặt.
-"""
+"""Suy diễn tiến từ sự kiện đã biết qua các luật IF–THEN."""
 from src.contracts import Luat
 
 
 def forward(facts: set[str], rules: list[Luat]) -> set[str]:
-    """Tự suy diễn tiến, trả toàn bộ sự kiện ban đầu và suy ra."""
-    raise NotImplementedError("chưa cài đặt")
+    """Tự suy diễn tiến đến điểm cố định; giữ nguyên facts đầu vào."""
+    known = set(facts)
+    while True:
+        inferred = {
+            rule["thì"]
+            for rule in rules
+            if all(condition in known for condition in rule["nếu"])
+        }
+        new_facts = inferred - known
+        if not new_facts:
+            return known
+        known.update(new_facts)

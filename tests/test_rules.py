@@ -21,13 +21,11 @@ def symbolic_rules():
     ]
 
 
-@pytest.mark.xfail(reason="chưa cài đặt", raises=NotImplementedError)
 def test_forward_chain_and_all_conditions(symbolic_rules):
     assert forward({"A", "D"}, symbolic_rules) == {"A", "B", "C", "D"}
     assert forward({"A"}, symbolic_rules) == {"A", "B"}
 
 
-@pytest.mark.xfail(reason="chưa cài đặt", raises=NotImplementedError)
 def test_backward_proof_and_unknown(symbolic_rules):
     assert backward("C", {"A", "D"}, symbolic_rules, lambda question: None) is True
     assert backward("C", {"A"}, symbolic_rules, lambda question: None) is False
@@ -39,7 +37,6 @@ def test_repository_rules_schema():
     assert validate_rules(document) == []
 
 
-@pytest.mark.xfail(reason="chưa cài đặt", raises=AssertionError)
 def test_at_least_20_real_rules():
     document = json.loads((ROOT / "src/rules/rules.json").read_text(encoding="utf-8"))
     assert len(document["rules"]) >= 20

@@ -1,6 +1,6 @@
+# Phiên bản dự kiến (chưa cài thử) - chạy: pip install -r requirements.txt
+# Python 3.10 - 3.11 (tensorflow 2.16.1 hỗ trợ Python 3.9 - 3.12)
 tensorflow==2.16.1
-# Python 3.10 hoặc 3.11; toàn bộ môi trường chức năng: chưa cài thử.
-# Ghim phụ thuộc trực tiếp; đây chưa phải lockfile của mọi phụ thuộc bắc cầu.
 numpy==1.26.4
 pandas==2.2.2
 scikit-learn==1.4.2

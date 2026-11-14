@@ -1,31 +1,35 @@
-"""Chạy thử Chức năng 1 - 3 trên dữ liệu mẫu trong data/sample/.
+"""Chạy khung CN1–CN3 trên bản đồ mẫu; không cần thư viện học máy."""
+import json
+import sys
+from pathlib import Path
 
-Mỗi module chức năng sẽ cung cấp hàm demo(); khi chưa cài đặt, script chỉ báo trạng thái.
-Cách chạy: python demo.py
-"""
-import importlib
-
-CHUC_NANG = [
-    ("Chức năng 1 - Lập lộ trình drone", "src.search.order_opt"),
-    ("Chức năng 2 - Hệ chuyên gia và mạng Bayes", "src.rules.ket_hop"),
-    ("Chức năng 3 - CNN nhận diện bệnh lá lúa", "src.model.transfer"),
-]
+from src.model.predict import IS_STUB, predict_top3
+from src.rules.diagnose import diagnose
+from src.search.run import plan_route
 
 
-def chay(tieu_de, ten_module):
-    print(f"\n=== {tieu_de} ===")
+def main() -> None:
+    """Đọc dữ liệu mẫu và chỉ bắt trạng thái chưa cài đặt của từng chức năng."""
+    duong_dan = Path(__file__).resolve().parent / "data/sample/maps/map_4x4.json"
+    ban_do = json.loads(duong_dan.read_text(encoding="utf-8"))
+    print(f"Bản đồ minh họa: {ban_do['rows']} × {ban_do['cols']}")
+    print(f"CN3 — dự đoán GIẢ (IS_STUB={IS_STUB}), không phải kết quả CNN:")
+    top3 = predict_top3("anh_gia_khong_doc.jpg")
+    print(top3)
     try:
-        mod = importlib.import_module(ten_module)
-    except Exception as loi:  # noqa: BLE001 - báo lỗi rõ ràng cho người chạy
-        print(f"  Không nạp được {ten_module}: {loi}")
-        return
-    ham = getattr(mod, "demo", None)
-    if ham is None:
-        print(f"  {ten_module}: chưa cài đặt hàm demo().")
-        return
-    ham()
+        print("CN1:", plan_route(ban_do, ban_do["k"], ban_do["p"], "hill"))
+    except NotImplementedError:
+        print("CN1: chưa cài đặt")
+    try:
+        print("CN2:", diagnose(top3, lambda cau_hoi: None))
+    except NotImplementedError:
+        print("CN2: chưa cài đặt")
+    print("Mạng Bayes và ứng dụng tích hợp: chưa cài đặt")
 
 
 if __name__ == "__main__":
-    for tieu_de, ten_module in CHUC_NANG:
-        chay(tieu_de, ten_module)
+    # Bảo đảm in tiếng Việt khi Windows chuyển đầu ra qua pipe dùng mã hóa cũ.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+        sys.stderr.reconfigure(encoding="utf-8")
+    main()

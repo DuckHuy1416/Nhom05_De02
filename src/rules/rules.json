@@ -1,4 +1,29 @@
 {
-  "_ghi_chu": "Mỗi luật phải có trường 'nguon' (tài liệu khuyến nông chính thống). Không tự đặt tên thuốc, liều lượng. Cần >= 20 luật.",
-  "rules": []
+  "_ghi_chu": "Bộ luật nhận diện triệu chứng đã đối chiếu nguồn; kết luận là gợi ý, không thay thế cán bộ chuyên môn. Mã sự kiện được mô tả trong docs/nguon_tri_thuc.md.",
+  "rules": [
+    {"id":"DO01","nếu":["vet_la_hinh_thoi"],"thì":"goi_y_dao_on","nguon":"S1, mục 1 Triệu chứng và tác hại (lá); S2, mục Rice Blast - Symptoms","ghi_chu":"Dấu hiệu định hướng, cần xét thêm hình dạng/màu vết."},
+    {"id":"DO02","nếu":["vet_la_tam_xam_kho"],"thì":"goi_y_dao_on","nguon":"S1, mục 1 Triệu chứng và tác hại (lá)","ghi_chu":"Mô tả vùng giữa vết hoại tử, khô xám."},
+    {"id":"DO03","nếu":["vet_la_vien_nau"],"thì":"goi_y_dao_on","nguon":"S2, mục Rice Blast - Leaf Symptoms","ghi_chu":"Viền nâu cùng dấu hiệu hình dạng làm tăng tính phù hợp."},
+    {"id":"DO04","nếu":["vet_co_la_nau_do"],"thì":"goi_y_dao_on","nguon":"S1, mục 1 Triệu chứng và tác hại (cổ lá)","ghi_chu":"Vị trí cổ lá giữa phiến và bẹ."},
+    {"id":"DO05","nếu":["dot_than_teo_nau"],"thì":"goi_y_dao_on","nguon":"S1, mục 1 Triệu chứng và tác hại (đốt thân)","ghi_chu":"Dấu hiệu tại đốt thân."},
+    {"id":"DO06","nếu":["co_bong_thoi_nau"],"thì":"goi_y_dao_on","nguon":"S1, mục 1 Triệu chứng và tác hại (cổ bông, cổ gié)","ghi_chu":"Dấu hiệu tại cổ bông/cổ gié."},
+    {"id":"DO07","nếu":["bong_lek_trang_som"],"thì":"can_xem_xet_dao_on_co_bong","nguon":"S1, mục 1 Triệu chứng và tác hại (cổ bông)","ghi_chu":"Lép trắng có thể do nguyên nhân khác; không dùng riêng để kết luận."},
+    {"id":"DO08","nếu":["am_u_va_suong_som"],"thì":"dieu_kien_thuan_loi_dao_on","nguon":"S1, mục 2 Điều kiện phát sinh phát triển","ghi_chu":"Yếu tố điều kiện môi trường, không phải triệu chứng xác nhận bệnh."},
+    {"id":"DO09","nếu":["ruong_thieu_nuoc"],"thì":"dieu_kien_thuan_loi_dao_on","nguon":"S1, mục 2 Điều kiện phát sinh phát triển","ghi_chu":"Yếu tố nguy cơ được tài liệu nêu."},
+    {"id":"DO10","nếu":["sa_day"],"thì":"dieu_kien_thuan_loi_dao_on","nguon":"S1, mục 2 Điều kiện phát sinh phát triển","ghi_chu":"Yếu tố nguy cơ được tài liệu nêu."},
+    {"id":"DO11","nếu":["thua_dam"],"thì":"dieu_kien_thuan_loi_dao_on","nguon":"S1, mục 2 Điều kiện phát sinh phát triển","ghi_chu":"Yếu tố nguy cơ được tài liệu nêu."},
+    {"id":"BL01","nếu":["vet_bac_dau_la_uot_nuoc"],"thì":"goi_y_bac_la","nguon":"S2, mục Triệu chứng - Bệnh bạc lá vi khuẩn trên lúa","ghi_chu":"Triệu chứng thường bắt đầu từ mép lá."},
+    {"id":"BL02","nếu":["vet_bac_keo_dai_tu_chop_la"],"thì":"goi_y_bac_la","nguon":"S2, mục Triệu chứng - Bệnh bạc lá vi khuẩn trên lúa","ghi_chu":"Vệt bệnh bắt đầu gần chóp lá và tăng dần chiều dài, chiều rộng."},
+    {"id":"BL03","nếu":["vet_bac_chuyen_vang_trang_khi_benh_tien_trien"],"thì":"goi_y_bac_la","nguon":"S2, mục Triệu chứng - Bệnh bạc lá vi khuẩn trên lúa","ghi_chu":"Vùng bệnh chuyển vàng đến trắng khi bệnh tiến triển."},
+    {"id":"BL04","nếu":["vet_bac_mep_luon_song"],"thì":"goi_y_bac_la","nguon":"S2, mục Triệu chứng - Bệnh bạc lá vi khuẩn trên lúa","ghi_chu":"Mép vệt bệnh có dạng lượn sóng."},
+    {"id":"BL05","nếu":["la_hoac_cay_con_héo"],"thì":"can_xem_xet_bac_la","nguon":"S2, mục Triệu chứng - Bệnh bạc lá vi khuẩn trên lúa","ghi_chu":"Có thể gặp héo lá/cây non; cần phân biệt nguyên nhân khác."},
+    {"id":"DN01","nếu":["dom_tron_hoac_bau_duc_nau"],"thì":"goi_y_dom_nau","nguon":"S3, Symptoms","ghi_chu":"Vết đốm nâu tròn đến bầu dục."},
+    {"id":"DN02","nếu":["dom_nau_vien_sam"],"thì":"goi_y_dom_nau","nguon":"S3, Symptoms","ghi_chu":"Vết lớn có viền nâu sẫm."},
+    {"id":"DN03","nếu":["dom_nau_tam_nhat_xam"],"thì":"goi_y_dom_nau","nguon":"S3, Symptoms","ghi_chu":"Tâm vết có thể đỏ nhạt hoặc xám."},
+    {"id":"DN04","nếu":["dom_nau_tren_bao_tu"],"thì":"goi_y_dom_nau","nguon":"S3, Symptoms","ghi_chu":"Vị trí trên bao tử được tài liệu mô tả."},
+    {"id":"DN05","nếu":["dom_nau_tren_la_gia"],"thì":"goi_y_dom_nau","nguon":"S3, Plant parts and life stages affected; Symptoms","ghi_chu":"Bệnh thường phổ biến hơn khi cây gần trưởng thành và lá già hóa."},
+    {"id":"DN06","nếu":["hat_giong_moc_kem_va_dom_bao_tu"],"thì":"can_xem_xet_dom_nau","nguon":"S3, Symptoms","ghi_chu":"Đốm trên bao tử có thể gây chết mạ và cây yếu; không phải dấu hiệu đặc hiệu đơn độc."},
+    {"id":"DN07","nếu":["dom_nau_tren_vo_hat"],"thì":"goi_y_dom_nau","nguon":"S3, Plant parts and life stages affected; Symptoms","ghi_chu":"Tổn thương trên vỏ trấu được mô tả tương tự tổn thương trên lá."},
+    {"id":"DN08","nếu":["dom_nau_tren_la_bao_tu_vo_hat"],"thì":"can_xem_xet_dom_nau","nguon":"S3, Plant parts and life stages affected; Symptoms","ghi_chu":"Chỉ là tổng hợp triệu chứng, không phải chẩn đoán xác định."}
+  ]
 }

@@ -3,3 +3,9 @@
 Phụ trách: TV4 | Thời hạn: T4 11/11 (theo Mẫu 01)
 Trạng thái: chưa cài đặt.
 """
+from pathlib import Path
+
+
+def build_pipeline(thu_muc: str | Path) -> object:
+    """Nạp và tăng cường dữ liệu; chưa cài đặt."""
+    raise NotImplementedError("chưa cài đặt")
